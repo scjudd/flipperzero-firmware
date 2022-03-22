@@ -10,8 +10,8 @@ public:
     DecoderHID26();
 
 private:
-    uint32_t last_pulse_time = 0;
-    bool last_pulse;
+    uint32_t pulse_clocks = 0;
+    bool last_pulse_length;
     uint8_t pulse_count;
 
     uint32_t stored_data[3] = {0, 0, 0};
