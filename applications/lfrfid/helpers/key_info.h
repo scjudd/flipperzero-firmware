@@ -7,6 +7,7 @@ static const uint8_t LFRFID_KEY_NAME_SIZE = 22;
 enum class LfrfidKeyType : uint8_t {
     KeyEM4100,
     KeyH10301,
+    KeyH10304,
     KeyI40134,
 };
 

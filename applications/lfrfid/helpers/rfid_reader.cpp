@@ -13,9 +13,14 @@ struct RfidReaderAccessor {
 };
 
 void RfidReader::decode(bool polarity) {
+    // DWT: Data Watchpoint and Trace
+    // CYCCNT: CPU cycles
     uint32_t current_dwt_value = DWT->CYCCNT;
     uint32_t period = current_dwt_value - last_dwt_value;
     last_dwt_value = current_dwt_value;
+
+    // period is thus the number of CPU cycles which have occurred since the
+    // last time this method was called.
 
 #ifdef RFID_GPIO_DEBUG
     decoder_gpio_out.process_front(polarity, period);
@@ -25,10 +30,12 @@ void RfidReader::decode(bool polarity) {
     case Type::Normal:
         decoder_em.process_front(polarity, period);
         decoder_hid26.process_front(polarity, period);
+        decoder_hid37.process_front(polarity, period);
         break;
     case Type::Indala:
         decoder_em.process_front(polarity, period);
         decoder_hid26.process_front(polarity, period);
+        decoder_hid37.process_front(polarity, period);
         decoder_indala.process_front(polarity, period);
         break;
     }
@@ -107,6 +114,11 @@ bool RfidReader::read(LfrfidKeyType* _type, uint8_t* data, uint8_t data_size, bo
 
     if(decoder_hid26.read(data, data_size)) {
         *_type = LfrfidKeyType::KeyH10301;
+        something_readed = true;
+    }
+
+    if(decoder_hid37.read(data, data_size)) {
+        *_type = LfrfidKeyType::KeyH10304;
         something_readed = true;
     }
 

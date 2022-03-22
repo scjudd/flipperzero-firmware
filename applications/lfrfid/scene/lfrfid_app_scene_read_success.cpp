@@ -74,6 +74,9 @@ void LfRfidAppSceneReadSuccess::on_enter(LfRfidApp* app, bool need_restore) {
         line_3_value->set_text(
             string_get_cstr(string[2]), 68, 47, 0, AlignLeft, AlignBottom, FontSecondary);
         break;
+    case LfrfidKeyType::KeyH10304:
+        // TODO: implement me
+        break;
     }
 
     app->view_controller.switch_to<ContainerVM>();

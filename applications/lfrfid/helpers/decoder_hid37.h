@@ -1,0 +1,24 @@
+#pragma once
+#include <stdint.h>
+#include <atomic>
+#include "protocols/protocol_hid_h10304.h"
+
+class DecoderHID37 {
+public:
+    bool read(uint8_t* data, uint8_t data_size);
+    void process_front(bool polarity, uint32_t time);
+    DecoderHID37();
+
+private:
+    uint32_t pulse_clocks = 0;
+    bool last_pulse_length;
+    uint8_t pulse_count;
+
+    uint32_t stored_data[4] = {0, 0, 0, 0};
+    void store_data(bool data);
+
+    std::atomic<bool> ready;
+
+    void reset_state();
+    ProtocolHID10304 hid;
+};

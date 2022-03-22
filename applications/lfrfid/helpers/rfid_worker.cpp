@@ -84,6 +84,9 @@ void RfidWorker::sq_write() {
             writer.write_indala(key.get_data());
             writer.stop();
             break;
+        case LfrfidKeyType::KeyH10304:
+            // TODO: implement me
+            break;
         }
     }
 }
@@ -92,6 +95,7 @@ void RfidWorker::sq_write_start_validate() {
     switch(key.get_type()) {
     case LfrfidKeyType::KeyEM4100:
     case LfrfidKeyType::KeyH10301:
+    case LfrfidKeyType::KeyH10304:
         reader.start_forced(RfidReader::Type::Normal);
         break;
     case LfrfidKeyType::KeyI40134:
